@@ -1,37 +1,43 @@
-import React from "react";
 import Cell from "./Cell";
+import { type CellType } from "../App";
 
-type GridProps = {
+interface Props {
   size: number;
-  cells: Record<string, any>;
+  cells: Record<string, CellType>;
   userId: string;
   userColor: string;
-};
+}
 
-export default function Grid({ size, cells, userId, userColor }: GridProps) {
-  const grid = [];
+export default function Grid({ size, cells, userId, userColor }: Props) {
+  return (
+    <div
+      className="
+        bg-[#181c23]
+        p-3
+        rounded-2xl
+        shadow-2xl
+        border
+        border-zinc-800
+      "
+    >
+      {Array.from({ length: size }).map((_, y) => (
+        <div key={y} className="flex">
+          {Array.from({ length: size }).map((_, x) => {
+            const key = `${x}-${y}`;
 
-  for (let y = 0; y < size; y++) {
-    const row = [];
-    for (let x = 0; x < size; x++) {
-      const key = `${x}-${y}`;
-      row.push(
-        <Cell
-          key={key}
-          x={x}
-          y={y}
-          data={cells[key]}
-          userId={userId}
-          userColor={userColor}
-        />,
-      );
-    }
-    grid.push(
-      <div key={y} className="flex">
-        {row}
-      </div>,
-    );
-  }
-
-  return <div>{grid}</div>;
+            return (
+              <Cell
+                key={key}
+                x={x}
+                y={y}
+                data={cells[key]}
+                userId={userId}
+                userColor={userColor}
+              />
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
 }
