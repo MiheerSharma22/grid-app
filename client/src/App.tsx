@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { socket } from "./socket";
 import Grid from "./components/Grid";
+import { getOrCreateUser, type PersistentUser } from "./utils/user";
 
 export interface CellType {
   x: number;
@@ -12,20 +13,7 @@ export interface CellType {
 function App() {
   const [cells, setCells] = useState<Record<string, CellType>>({});
 
-  const userId = useMemo(() => crypto.randomUUID().slice(0, 6), []);
-
-  const userColor = useMemo(() => {
-    const colors = [
-      "#FF6B6B",
-      "#4ECDC4",
-      "#FFD93D",
-      "#6C5CE7",
-      "#00B894",
-      "#0984E3",
-    ];
-
-    return colors[Math.floor(Math.random() * colors.length)];
-  }, []);
+  const [user] = useState<PersistentUser>(getOrCreateUser());
 
   useEffect(() => {
     socket.on("init_grid", (data: CellType[]) => {
@@ -62,16 +50,24 @@ function App() {
           Capture blocks live with other users
         </p>
 
-        <div className="flex items-center justify-center gap-2 mt-4">
+        <div className="flex items-center justify-center gap-3 mt-4">
           <div
             className="w-4 h-4 rounded-full"
-            style={{ background: userColor }}
+            style={{
+              background: user.color,
+            }}
           />
-          <span className="text-sm text-zinc-300">User: {userId}</span>
+
+          <span className="text-sm text-zinc-300">User ID: {user.userId}</span>
         </div>
       </div>
 
-      <Grid size={25} cells={cells} userId={userId} userColor={userColor} />
+      <Grid
+        size={25}
+        cells={cells}
+        userId={user.userId}
+        userColor={user.color}
+      />
     </div>
   );
 }

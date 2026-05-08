@@ -13,6 +13,8 @@ interface Props {
 export default function Cell({ x, y, data, userId, userColor }: Props) {
   const claimed = Boolean(data);
 
+  const isMine = data?.ownerId === userId;
+
   const handleClick = () => {
     if (claimed) return;
 
@@ -27,41 +29,59 @@ export default function Cell({ x, y, data, userId, userColor }: Props) {
   return (
     <motion.div
       onClick={handleClick}
-      whileHover={!claimed ? { scale: 1.12 } : {}}
-      whileTap={!claimed ? { scale: 0.95 } : {}}
-      initial={{ opacity: 0, scale: 0.8 }}
+      whileHover={!claimed ? { scale: 1.15 } : {}}
+      whileTap={!claimed ? { scale: 0.92 } : {}}
       animate={{
-        opacity: 1,
-        scale: 1,
         backgroundColor: claimed ? data?.color : "#232833",
       }}
       transition={{
         type: "spring",
-        stiffness: 300,
-        damping: 20,
+        stiffness: 260,
+        damping: 18,
       }}
       className={`
         w-6
         h-6
         border
-        border-[#2d3442]
-        cursor-pointer
         relative
+        cursor-pointer
         duration-200
+        border-[#2d3442]
+        ${!claimed ? "hover:border-zinc-500" : ""}
       `}
     >
       {claimed && (
-        <motion.div
-          layoutId={`${x}-${y}`}
-          className="
-            absolute
-            inset-0
-            rounded-[2px]
-          "
-          style={{
-            background: data?.color,
-          }}
-        />
+        <>
+          <motion.div
+            initial={{
+              scale: 0,
+              opacity: 0,
+            }}
+            animate={{
+              scale: 1,
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.25,
+            }}
+            className="absolute inset-0"
+            style={{
+              background: data?.color,
+            }}
+          />
+
+          {isMine && (
+            <div
+              className="
+                absolute
+                inset-0
+                border-2
+                border-white
+                pointer-events-none
+              "
+            />
+          )}
+        </>
       )}
     </motion.div>
   );

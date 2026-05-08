@@ -17,12 +17,6 @@ function initSocket(server) {
 
     socket.on("claim_cell", async ({ x, y, userId, color }) => {
       try {
-        const existing = await Cell.findOne({ x, y });
-
-        if (existing) {
-          return; // already claimed
-        }
-
         const newCell = await Cell.create({
           x,
           y,
@@ -32,7 +26,11 @@ function initSocket(server) {
 
         io.emit("cell_updated", newCell);
       } catch (err) {
-        console.error(err);
+        if (err.code === 11000) {
+          console.log("Cell already claimed by someone else");
+        } else {
+          console.error(err);
+        }
       }
     });
 
