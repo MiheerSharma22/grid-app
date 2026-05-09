@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+
 import { socket } from "../socket";
 import { type CellType } from "../App";
 
@@ -29,59 +30,72 @@ export default function Cell({ x, y, data, userId, userColor }: Props) {
   return (
     <motion.div
       onClick={handleClick}
-      whileHover={!claimed ? { scale: 1.15 } : {}}
-      whileTap={!claimed ? { scale: 0.92 } : {}}
+      whileHover={
+        !claimed
+          ? {
+              scale: 1.18,
+              zIndex: 10,
+            }
+          : {}
+      }
+      whileTap={
+        !claimed
+          ? {
+              scale: 0.92,
+            }
+          : {}
+      }
       animate={{
-        backgroundColor: claimed ? data?.color : "#232833",
+        backgroundColor: claimed ? data?.color : "#18181b",
       }}
       transition={{
         type: "spring",
         stiffness: 260,
         damping: 18,
       }}
-      className={`
+      className="
+        relative
         w-6
         h-6
         border
-        relative
+        border-white/5
         cursor-pointer
-        duration-200
-        border-[#2d3442]
-        ${!claimed ? "hover:border-zinc-500" : ""}
-      `}
+      "
+      style={{
+        boxShadow: claimed ? `0 0 12px ${data?.color}55` : "none",
+      }}
     >
-      {claimed && (
-        <>
-          <motion.div
-            initial={{
-              scale: 0,
-              opacity: 0,
-            }}
-            animate={{
-              scale: 1,
-              opacity: 1,
-            }}
-            transition={{
-              duration: 0.25,
-            }}
-            className="absolute inset-0"
-            style={{
-              background: data?.color,
-            }}
-          />
+      {!claimed && (
+        <motion.div
+          className="
+            absolute
+            inset-0
+            bg-white
+            opacity-0
+          "
+          whileHover={{
+            opacity: 0.05,
+          }}
+        />
+      )}
 
-          {isMine && (
-            <div
-              className="
-                absolute
-                inset-0
-                border-2
-                border-white
-                pointer-events-none
-              "
-            />
-          )}
-        </>
+      {isMine && (
+        <motion.div
+          animate={{
+            opacity: [0.4, 1, 0.4],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 2,
+          }}
+          className="
+            absolute
+            inset-0
+            border-2
+            border-white
+            pointer-events-none
+          "
+        />
       )}
     </motion.div>
   );
