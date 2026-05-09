@@ -4,9 +4,11 @@ const Cell = require("./models/Cell");
 const onlineUsers = new Map();
 
 function initSocket(server) {
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5174";
+
   const io = new Server(server, {
     cors: {
-      origin: "http://localhost:5174",
+      origin: frontendUrl,
     },
   });
 
