@@ -1,16 +1,9 @@
 import { motion } from "framer-motion";
 
 import Cell from "./Cell";
-import { type CellType } from "../App";
+import { type GridProps } from "../types";
 
-interface Props {
-  size: number;
-  cells: Record<string, CellType>;
-  userId: string;
-  userColor: string;
-}
-
-export default function Grid({ size, cells, userId, userColor }: Props) {
+export default function Grid({ size, cells, userId, userColor }: GridProps) {
   return (
     <motion.div
       initial={{

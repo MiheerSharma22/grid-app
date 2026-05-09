@@ -2,6 +2,8 @@
    FILE: src/utils/user.ts
 ========================= */
 
+import { type PersistentUser } from "../types";
+
 const COLORS = [
   "#FF6B6B",
   "#4ECDC4",
@@ -18,11 +20,6 @@ const COLORS = [
 ];
 
 const USER_STORAGE_KEY = "shared-grid-user";
-
-export interface PersistentUser {
-  userId: string;
-  color: string;
-}
 
 function generateId() {
   return crypto.randomUUID().slice(0, 8);

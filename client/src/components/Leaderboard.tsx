@@ -1,20 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 
-import { type LeaderboardUser } from "../types";
-
-interface Props {
-  open: boolean;
-  onClose: () => void;
-  leaderboard: LeaderboardUser[];
-  currentUserId: string;
-}
+import { type LeaderboardProps } from "../types";
 
 export default function Leaderboard({
   open,
   onClose,
   leaderboard,
   currentUserId,
-}: Props) {
+}: LeaderboardProps) {
   return (
     <AnimatePresence>
       {open && (
@@ -30,12 +23,7 @@ export default function Leaderboard({
               opacity: 0,
             }}
             onClick={onClose}
-            className="
-              fixed
-              inset-0
-              bg-black/60
-              backdrop-blur-sm
-              z-40
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40
             "
           />
 
@@ -53,48 +41,14 @@ export default function Leaderboard({
               type: "spring",
               damping: 24,
             }}
-            className="
-              fixed
-              right-0
-              top-0
-              h-screen
-              w-[380px]
-              bg-[#0f1115]
-              border-l
-              border-white/10
-              z-50
-              p-6
-              overflow-y-auto
-              shadow-2xl
-            "
+            className="fixed right-0 top-0 h-screen w-[380px] bg-[#0f1115] border-l border-white/10 z-50 p-6 overflow-y-auto shadow-2xl"
           >
-            <div
-              className="
-                flex
-                items-center
-                justify-between
-                mb-8
-              "
-            >
-              <h2
-                className="
-                  text-3xl
-                  font-black
-                "
-              >
-                Leaderboard
-              </h2>
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-black">Leaderboard</h2>
 
               <button
                 onClick={onClose}
-                className="
-                  w-10
-                  h-10
-                  rounded-full
-                  bg-white/5
-                  hover:bg-white/10
-                  transition
-                "
+                className=" w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 transition cursor-pointer"
               >
                 ✕
               </button>
@@ -118,13 +72,7 @@ export default function Leaderboard({
                     transition={{
                       delay: index * 0.03,
                     }}
-                    className={`
-                      relative
-                      rounded-2xl
-                      p-4
-                      border
-                      backdrop-blur-xl
-                      transition
+                    className={`relative rounded-2xl p-4 border backdrop-blur-xl transition
                       ${
                         isMe
                           ? "border-white/30 bg-white/10 scale-[1.02]"
@@ -133,48 +81,19 @@ export default function Leaderboard({
                     `}
                   >
                     {isMe && (
-                      <div
-                        className="
-                          absolute
-                          top-6
-                          right-20 
-                          text-[0.6rem]
-                          px-2
-                          py-0.5
-                          rounded-md
-                          text-grey-500
-                          font-bold
-                        "
-                      >
+                      <div className="absolute top-6 right-20  text-[0.6rem] px-2 py-0.5 rounded-md text-grey-500 font-bold">
                         You
                       </div>
                     )}
 
-                    <div
-                      className="
-                        flex
-                        items-center
-                        justify-between
-                      "
-                    >
+                    <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div
-                          className="
-                            text-zinc-500
-                            font-bold
-                            text-lg
-                            w-6
-                          "
-                        >
+                        <div className="text-zinc-500 font-bold text-lg w-6">
                           #{index + 1}
                         </div>
 
                         <div
-                          className="
-                            w-4
-                            h-4
-                            rounded-full
-                          "
+                          className=" w-4 h-4 rounded-full"
                           style={{
                             background: user.color,
                           }}
@@ -197,23 +116,9 @@ export default function Leaderboard({
                       </div>
 
                       <div className="text-right">
-                        <div
-                          className="
-                            text-2xl
-                            font-black
-                          "
-                        >
-                          {user.blocks}
-                        </div>
+                        <div className="text-2xl font-black">{user.blocks}</div>
 
-                        <div
-                          className="
-                            text-xs
-                            text-zinc-500
-                          "
-                        >
-                          blocks
-                        </div>
+                        <div className="text-xs text-zinc-500">blocks</div>
                       </div>
                     </div>
                   </motion.div>

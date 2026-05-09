@@ -1,17 +1,9 @@
 import { motion } from "framer-motion";
 
 import { socket } from "../socket";
-import { type CellType } from "../App";
+import { type CellProps } from "../types";
 
-interface Props {
-  x: number;
-  y: number;
-  data?: CellType;
-  userId: string;
-  userColor: string;
-}
-
-export default function Cell({ x, y, data, userId, userColor }: Props) {
+export default function Cell({ x, y, data, userId, userColor }: CellProps) {
   const claimed = Boolean(data);
 
   const isMine = data?.ownerId === userId;
@@ -53,26 +45,14 @@ export default function Cell({ x, y, data, userId, userColor }: Props) {
         stiffness: 260,
         damping: 18,
       }}
-      className="
-        relative
-        w-6
-        h-6
-        border
-        border-white/5
-        cursor-pointer
-      "
+      className="relative w-6 h-6 border border-white/5 cursor-pointer"
       style={{
         boxShadow: claimed ? `0 0 12px ${data?.color}55` : "none",
       }}
     >
       {!claimed && (
         <motion.div
-          className="
-            absolute
-            inset-0
-            bg-white
-            opacity-0
-          "
+          className=" absolute inset-0 bg-white opacity-0"
           whileHover={{
             opacity: 0.05,
           }}
@@ -88,13 +68,7 @@ export default function Cell({ x, y, data, userId, userColor }: Props) {
             repeat: Infinity,
             duration: 2,
           }}
-          className="
-            absolute
-            inset-0
-            border-2
-            border-white
-            pointer-events-none
-          "
+          className="absolute inset-0 border-2 border-white pointer-events-none"
         />
       )}
     </motion.div>

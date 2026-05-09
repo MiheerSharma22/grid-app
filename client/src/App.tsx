@@ -5,16 +5,13 @@ import { socket } from "./socket";
 import Grid from "./components/Grid";
 import Leaderboard from "./components/Leaderboard";
 
-import { getOrCreateUser, type PersistentUser } from "./utils/user";
+import { getOrCreateUser } from "./utils/user";
 
-import { type LeaderboardUser } from "./types";
-
-export interface CellType {
-  x: number;
-  y: number;
-  ownerId: string;
-  color: string;
-}
+import {
+  type CellType,
+  type LeaderboardUser,
+  type PersistentUser,
+} from "./types";
 
 function App() {
   const [cells, setCells] = useState<Record<string, CellType>>({});
@@ -66,43 +63,16 @@ function App() {
   const onlineUsers = leaderboard.filter((u) => u.online).length;
 
   return (
-    <div
-      className="
-        min-h-screen
-        bg-[#09090b]
-        text-white
-        overflow-hidden
-        relative
-      "
-    >
+    <div className="min-h-screen bg-[#09090b] text-white overflow-hidden relative">
       {/* Background glow */}
       <div
-        className="
-          absolute
-          top-[-150px]
-          left-[-100px]
-          w-[400px]
-          h-[400px]
-          rounded-full
-          blur-[120px]
-          opacity-20
-        "
+        className="absolute top-[-150px] left-[-100px] w-[400px] h-[400px] rounded-full blur-[120px] opacity-20"
         style={{
           background: user.color,
         }}
       />
 
-      <div
-        className="
-          relative
-          z-10
-          px-6
-          py-8
-          flex
-          flex-col
-          items-center
-        "
-      >
+      <div className="relative z-10 px-6 py-8 flex flex-col items-center">
         <motion.div
           initial={{
             opacity: 0,
@@ -115,38 +85,11 @@ function App() {
           transition={{
             duration: 0.45,
           }}
-          className="
-            backdrop-blur-xl
-            bg-white/5
-            border
-            border-white/10
-            rounded-3xl
-            px-8
-            py-6
-            mb-8
-            shadow-2xl
-            text-center
-          "
+          className=" backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl px-8 py-6 mb-8 shadow-2xl text-center"
         >
-          <h1
-            className="
-              text-5xl
-              font-black
-              tracking-tight
-            "
-          >
-            Shared Grid
-          </h1>
+          <h1 className=" text-5xl font-black tracking-tight">Shared Grid</h1>
 
-          <div
-            className="
-              flex
-              items-center
-              justify-center
-              gap-3
-              mt-5
-            "
-          >
+          <div className="flex items-center justify-center gap-3 mt-5">
             <motion.div
               animate={{
                 scale: [1, 1.15, 1],
@@ -155,35 +98,16 @@ function App() {
                 repeat: Infinity,
                 duration: 2,
               }}
-              className="
-                w-4
-                h-4
-                rounded-full
-              "
+              className="w-4 h-4 rounded-full"
               style={{
                 background: user.color,
               }}
             />
 
-            <span
-              className="
-                text-sm
-                text-zinc-300
-              "
-            >
-              {user.userId}
-            </span>
+            <span className=" text-sm text-zinc-300 ">{user.userId}</span>
           </div>
 
-          <div
-            className="
-              flex
-              items-center
-              justify-center
-              gap-6
-              mt-6
-            "
-          >
+          <div className=" flex items-center justify-center gap-6 mt-6">
             <div>
               <div className="text-2xl font-bold">{onlineUsers}</div>
 
@@ -205,16 +129,7 @@ function App() {
               scale: 0.96,
             }}
             onClick={() => setLeaderboardOpen(true)}
-            className="
-              mt-7
-              px-6
-              py-3
-              rounded-2xl
-              font-semibold
-              text-black
-              shadow-lg
-              cursor-pointer
-            "
+            className="mt-7 px-6 py-3 rounded-2xl font-semibold text-black shadow-lg cursor-pointer"
             style={{
               background: user.color,
             }}
